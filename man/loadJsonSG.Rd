@@ -4,7 +4,7 @@
 \alias{loadJsonSG}
 \title{Loads a json file rsg game specification
 and returns the rsg object as R list
-You then can call rsg_solve on the result
+You then can call solveSG on the result
 to get the approximations to the equilibrium payoff sets}
 \usage{
 loadJsonSG(file)
@@ -15,7 +15,7 @@ loadJsonSG(file)
 \description{
 Loads a json file rsg game specification
 and returns the rsg object as R list
-You then can call rsg_solve on the result
+You then can call solveSG on the result
 to get the approximations to the equilibrium payoff sets
 }
 

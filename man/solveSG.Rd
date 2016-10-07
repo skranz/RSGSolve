@@ -5,22 +5,35 @@
 \title{Solve a two-player stochastic game of perfect monitoring}
 \usage{
 solveSG(delta = rsg$delta, states = rsg$states, rsg = NULL,
-  duplicate.first.point = TRUE, all.iterations = FALSE, tol = 1e-12,
+  duplicate.first.point = TRUE, all.iter = TRUE, tol = 1e-12,
   normtol = tol, directiontol = tol, leveltol = tol, improvetol = tol)
 }
 \arguments{
 \item{delta}{the discount factor between 0 and 1}
 
+\item{all.iter}{shall return value contain the field ipoints that contains the pivots of all iterations?}
+
 \item{stages}{a list of stages. Each stage is a list with the following elements:
 - numActions: a size 2 vector that contains the number of actions for player 1 and 2. Its product is numActionProfiles.
 - payoffs: a matrix of dimension numActionProfiles x 2. The payoffs as function of the action profile. The actions are mapped to action profiles as described in the documentation of Brooks C++ library: A pair (a1,a2) is mapped into an action profile index using the formula a=a1+a2*numActions[s][a1].
-- transition: a matrix of dimension numActionProfiles x numStates. The transition probabilities. Each row has to sum up to 1.}
+- transition: a matrix of dimension numActionProfiles x numStates. The transition probabilities. Each row has to sum up to 1.
+@param duplicate.first.point if TRUE (default) the first row o the point matrices will be added again to the end. This facilitates plotting of the payoff set using the lines command.}
 }
 \value{
-a list where points contains the extreme points
-        of the final payoff set approximation for every state.
-        Using the terminology of ABS (2016): the pivots from the last revolution.
-        While SGSolve computes much more this R Interface only returns these values so far.
+a list with the following elements
+   solved: TRUE if the game could be solved
+
+   points: a list with a matrix for every state that
+     contains the the extreme points of the final
+     payoff set approximation.
+     Using the terminology of ABS (2016): the pivots
+     from the last revolution.
+
+   ipoints: a list with a matrix for every state, containing
+     the pivots (extreme points) from every iteration.
+
+   revolution: a vector that denotes the revolution of each
+     point in the ipoints matrices.
 }
 \description{
 Uses Ben Brooks implementation SGSolve of the pencil sharpening
