@@ -9,7 +9,7 @@ rcpp_hello <- function() {
     .Call('RSGSolve_rcpp_hello', PACKAGE = 'RSGSolve')
 }
 
-solve_rsg <- function(delta, numStates, states, allIterations, normtol, directiontol, leveltol, improvetol) {
-    .Call('RSGSolve_solve_rsg', PACKAGE = 'RSGSolve', delta, numStates, states, allIterations, normtol, directiontol, leveltol, improvetol)
+solve_rsg <- function(delta, numStates, states, allIterations, verbose, noreturn, normtol, directiontol, leveltol, improvetol) {
+    .Call('RSGSolve_solve_rsg', PACKAGE = 'RSGSolve', delta, numStates, states, allIterations, verbose, noreturn, normtol, directiontol, leveltol, improvetol)
 }
 

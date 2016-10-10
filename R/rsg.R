@@ -9,6 +9,7 @@ example.solve.pd = function() {
   sol = solveSG(rsg$delta, states, all.iter = TRUE)
   sol
 
+  solveSG(rsg$delta,states, noreturn=TRUE)
   plot(sol$ipoints[[1]], type="p", lwd=2, col="grey")
   lines(sol$points[[1]], type="o", lwd=2, col="blue")
 
@@ -27,6 +28,7 @@ example.solve.pd = function() {
 #'  - transition: a matrix of dimension numActionProfiles x numStates. The transition probabilities. Each row has to sum up to 1.
 #'  @param duplicate.first.point if TRUE (default) the first row o the point matrices will be added again to the end. This facilitates plotting of the payoff set using the lines command.
 #' @param all.iter shall return value contain the field ipoints that contains the pivots of all iterations?
+#' @param noreturn if set to TRUE solves the game but does not return any values. Useful for bechmarking and not taking into account the time it takes to copy results into R format. (My C++ code there may not be super efficient.)
 #' @return a list with the following elements
 #'    solved: TRUE if the game could be solved
 #'
@@ -43,12 +45,16 @@ example.solve.pd = function() {
 #'      point in the ipoints matrices.
 #'
 #' @export
-solveSG = function(delta = rsg$delta, states=rsg$states, rsg=NULL,duplicate.first.point = TRUE, all.iter=TRUE, tol=1e-12, normtol=tol,  directiontol=tol, leveltol=tol, improvetol=tol) {
+solveSG = function(delta = rsg$delta, states=rsg$states, rsg=NULL,duplicate.first.point = TRUE, all.iter=TRUE, tol=1e-12, normtol=tol,  directiontol=tol, leveltol=tol, improvetol=tol, verbose=1L, noreturn=FALSE) {
   restore.point("solve_rsg")
 
   all.iter = as.integer(all.iter)
-  sol = solve_rsg(delta, length(states), states, all.iter,normtol, directiontol, leveltol,improvetol)
+  verbose = as.integer(verbose)
+  noreturn = as.integer(noreturn)
+  sol = solve_rsg(delta, length(states), states, all.iter,verbose,noreturn, normtol, directiontol, leveltol,improvetol)
   sol$solved = (sol$solved == 1)
+  if (noreturn==1) return(sol)
+
   if (sol$solved) {
     if (duplicate.first.point) {
       for (i in seq_along(states)) {

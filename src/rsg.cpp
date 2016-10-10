@@ -29,8 +29,8 @@ using namespace Rcpp;
 using namespace std;
 
 // [[Rcpp::export]]
-SEXP solve_rsg(double delta, int numStates, Rcpp::List states, int allIterations,
-  double normtol,  double directiontol, double leveltol, double improvetol
+SEXP solve_rsg(double delta, int numStates, Rcpp::List states, int allIterations, int verbose,
+int noreturn,  double normtol,  double directiontol, double leveltol, double improvetol
 )
 {
 
@@ -67,7 +67,7 @@ SEXP solve_rsg(double delta, int numStates, Rcpp::List states, int allIterations
     int nat = std::accumulate(nac.begin(),nac.end(), 1, std::multiplies<int>());
     numActions_total[state] = nat;
 
-    cout << "  payoffs... ";
+    cout << "init payoffs... ";
 
     NumericMatrix rpm = st["payoffs"];
     vector<vector<double> > pm(nat, vector<double>(2,0.0));
@@ -80,7 +80,7 @@ SEXP solve_rsg(double delta, int numStates, Rcpp::List states, int allIterations
     cout << "  done!" << endl;
 
 
-    cout << "  transition matrix... ";
+    cout << "init  transition matrix... ";
     NumericMatrix rtr = st["transition"];
     vector<vector<double> > tr(nat, vector<double>(numStates,0.0));
     for (action = 0; action < nat; action++) {
@@ -128,6 +128,13 @@ SEXP solve_rsg(double delta, int numStates, Rcpp::List states, int allIterations
       cout << "Starting solve routine" << endl;
       solver.solve();
       cout << "Done!" << endl;
+
+      if (noreturn==1) {
+        Rcpp::List res = Rcpp::List::create(
+          Rcpp::Named("solved") = 1
+        );
+        return(res);
+      }
 
       //cout << "\nDelta = " << game.getDelta()
       //     << "\nnumStates" << numStates;

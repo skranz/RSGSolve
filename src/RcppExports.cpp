@@ -26,8 +26,8 @@ BEGIN_RCPP
 END_RCPP
 }
 // solve_rsg
-SEXP solve_rsg(double delta, int numStates, Rcpp::List states, int allIterations, double normtol, double directiontol, double leveltol, double improvetol);
-RcppExport SEXP RSGSolve_solve_rsg(SEXP deltaSEXP, SEXP numStatesSEXP, SEXP statesSEXP, SEXP allIterationsSEXP, SEXP normtolSEXP, SEXP directiontolSEXP, SEXP leveltolSEXP, SEXP improvetolSEXP) {
+SEXP solve_rsg(double delta, int numStates, Rcpp::List states, int allIterations, int verbose, int noreturn, double normtol, double directiontol, double leveltol, double improvetol);
+RcppExport SEXP RSGSolve_solve_rsg(SEXP deltaSEXP, SEXP numStatesSEXP, SEXP statesSEXP, SEXP allIterationsSEXP, SEXP verboseSEXP, SEXP noreturnSEXP, SEXP normtolSEXP, SEXP directiontolSEXP, SEXP leveltolSEXP, SEXP improvetolSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -35,11 +35,13 @@ BEGIN_RCPP
     Rcpp::traits::input_parameter< int >::type numStates(numStatesSEXP);
     Rcpp::traits::input_parameter< Rcpp::List >::type states(statesSEXP);
     Rcpp::traits::input_parameter< int >::type allIterations(allIterationsSEXP);
+    Rcpp::traits::input_parameter< int >::type verbose(verboseSEXP);
+    Rcpp::traits::input_parameter< int >::type noreturn(noreturnSEXP);
     Rcpp::traits::input_parameter< double >::type normtol(normtolSEXP);
     Rcpp::traits::input_parameter< double >::type directiontol(directiontolSEXP);
     Rcpp::traits::input_parameter< double >::type leveltol(leveltolSEXP);
     Rcpp::traits::input_parameter< double >::type improvetol(improvetolSEXP);
-    rcpp_result_gen = Rcpp::wrap(solve_rsg(delta, numStates, states, allIterations, normtol, directiontol, leveltol, improvetol));
+    rcpp_result_gen = Rcpp::wrap(solve_rsg(delta, numStates, states, allIterations, verbose, noreturn, normtol, directiontol, leveltol, improvetol));
     return rcpp_result_gen;
 END_RCPP
 }
