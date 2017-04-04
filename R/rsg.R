@@ -29,6 +29,7 @@ example.solve.pd = function() {
 #'  @param duplicate.first.point if TRUE (default) the first row o the point matrices will be added again to the end. This facilitates plotting of the payoff set using the lines command.
 #' @param all.iter shall return value contain the field ipoints that contains the pivots of all iterations?
 #' @param noreturn if set to TRUE solves the game but does not return any values. Useful for bechmarking and not taking into account the time it takes to copy results into R format. (My C++ code there may not be super efficient.)
+#' @param tol if <=0 use default tolerances
 #' @return a list with the following elements
 #'    solved: TRUE if the game could be solved
 #'
@@ -45,7 +46,7 @@ example.solve.pd = function() {
 #'      point in the ipoints matrices.
 #'
 #' @export
-solveSG = function(delta = rsg$delta, states=rsg$states, rsg=NULL,duplicate.first.point = TRUE, all.iter=TRUE, tol=1e-12, normtol=tol,  directiontol=tol, leveltol=tol, improvetol=tol, verbose=1L, noreturn=FALSE) {
+solveSG = function(delta = rsg$delta, states=rsg$states, rsg=NULL,duplicate.first.point = TRUE, all.iter=TRUE, tol=-1, normtol=tol,  directiontol=tol, leveltol=tol, improvetol=tol, verbose=1L, noreturn=FALSE) {
   restore.point("solve_rsg")
 
   all.iter = as.integer(all.iter)
